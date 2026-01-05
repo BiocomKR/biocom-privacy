@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "biocom-backoffice"
+  },
+  "targets": {
+    "biocom-backoffice": {
+      "hosting": {
+        "privacy": ["biocom-privacy"]
+      }
+    }
+  }
+}

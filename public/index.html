@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>개인정보 처리방침 - 바이오컴</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif; line-height: 1.8; color: #333; background: #fff; padding: 20px; max-width: 800px; margin: 0 auto; }
+    h1 { font-size: 24px; margin-bottom: 10px; color: #111; }
+    .meta { color: #666; font-size: 14px; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+    .content { font-size: 15px; white-space: pre-wrap; }
+    .loading { text-align: center; padding: 50px; color: #666; }
+    .error { text-align: center; padding: 50px; color: #e74c3c; }
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 12px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="loading">로딩 중...</div>
+  </div>
+  <script>
+    const API_URL = 'https://api.biocom.ai.kr/api/public/consents/PRIVACY_POLICY';
+
+    async function loadPrivacyPolicy() {
+      try {
+        const response = await fetch(API_URL);
+        const result = await response.json();
+
+        if (result.success && result.data) {
+          const { title, content, version } = result.data;
+          document.getElementById('app').innerHTML = `
+            <h1>${title}</h1>
+            <div class="meta">버전 ${version} | 주식회사 바이오컴</div>
+            <div class="content">${content}</div>
+            <footer>© 주식회사 바이오컴</footer>
+          `;
+          document.title = `${title} - 바이오컴`;
+        } else {
+          throw new Error('데이터를 불러올 수 없습니다.');
+        }
+      } catch (error) {
+        document.getElementById('app').innerHTML = `
+          <div class="error">
+            <p>개인정보 처리방침을 불러오는 중 오류가 발생했습니다.</p>
+            <p style="font-size: 12px; margin-top: 10px;">${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    loadPrivacyPolicy();
+  </script>
+</body>
+</html>
